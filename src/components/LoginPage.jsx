@@ -305,9 +305,10 @@ const LoginPage = ({ onLogin }) => {
                                             fontSize: '0.85rem',
                                             textAlign: 'center',
                                             backgroundColor: 'rgba(204, 0, 0, 0.1)',
-                                            padding: '8px',
+                                            padding: '10px',
                                             borderRadius: '6px',
-                                            margin: '4px 0'
+                                            margin: '10px 0 4px 0',
+                                            border: '1px solid rgba(204, 0, 0, 0.2)'
                                         }}
                                     >
                                         {error}

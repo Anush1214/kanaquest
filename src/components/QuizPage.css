@@ -1,0 +1,342 @@
+.quiz-page {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.quiz-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.quiz-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7) blur(2px);
+}
+
+.quiz-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.7) 100%
+    );
+}
+
+.quiz-back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    border: none;
+    color: var(--color-gold);
+    font-family: var(--font-japanese);
+    font-size: 1.1rem;
+    cursor: pointer;
+    z-index: 10;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.quiz-back-btn:hover {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+}
+
+/* ---------- Quiz Card ---------- */
+.quiz-card {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 600px;
+    background: rgba(245, 240, 232, 0.95);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(212, 168, 67, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid rgba(204, 0, 0, 0.1);
+    padding-bottom: 15px;
+}
+
+.quiz-header h2 {
+    font-family: var(--font-japanese);
+    color: var(--color-red);
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.question-count {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.question-count span {
+    color: var(--color-red);
+    font-size: 1.2rem;
+}
+
+/* ---------- Progress Bar ---------- */
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--color-red);
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* ---------- Question Area ---------- */
+.question-text {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--color-text-dark);
+    margin-bottom: 30px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* ---------- Options ---------- */
+.answer-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.answer-btn {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid rgba(44, 24, 16, 0.1);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    outline: none;
+}
+
+.option-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: rgba(204, 0, 0, 0.05);
+    color: var(--color-red);
+    border-radius: 6px;
+    font-family: var(--font-japanese);
+    font-weight: bold;
+    margin-right: 15px;
+    font-size: 0.9rem;
+}
+
+.option-text {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--color-text-dark);
+}
+
+/* States */
+.answer-btn.correct {
+    background: #e8f5e9;
+    border-color: #4caf50;
+    color: #2e7d32;
+}
+
+.answer-btn.correct .option-letter {
+    background: #4caf50;
+    color: white;
+}
+
+.answer-btn.correct .option-text {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.answer-btn.incorrect {
+    background: #ffebee;
+    border-color: #f44336;
+}
+
+.answer-btn.incorrect .option-letter {
+    background: #f44336;
+    color: white;
+}
+
+.answer-btn.incorrect .option-text {
+    color: #c62828;
+}
+
+.answer-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f9f9f9;
+}
+
+/* ---------- Score Section ---------- */
+.score-section {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.score-section h2 {
+    font-family: var(--font-japanese);
+    color: var(--color-red);
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.score-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.score-number {
+    font-family: var(--font-jp);
+    font-size: 5rem;
+    color: var(--color-gold);
+    line-height: 1;
+    text-shadow: 0 4px 15px rgba(212, 168, 67, 0.3);
+}
+
+.score-divider {
+    font-size: 3rem;
+    color: #ccc;
+    font-weight: 300;
+}
+
+.score-total {
+    font-size: 2.5rem;
+    color: #888;
+}
+
+.score-message {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--color-text-dark);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.save-status {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 30px;
+    min-height: 20px;
+    font-style: italic;
+}
+
+.save-status.saving {
+    color: var(--color-gold);
+    animation: pulse 1.5s infinite;
+}
+
+.play-again-btn {
+    background: var(--color-red);
+    color: white;
+    border: none;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-family: var(--font-japanese);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(204, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.play-again-btn:hover {
+    background: var(--color-red-dark);
+    box-shadow: 0 12px 30px rgba(204, 0, 0, 0.4);
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .quiz-card {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+
+    .question-text {
+        font-size: 1.2rem;
+    }
+
+    .score-number {
+        font-size: 4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .quiz-header h2 {
+        font-size: 1.4rem;
+    }
+    
+    .question-text {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+    
+    .answer-btn {
+        padding: 14px 16px;
+    }
+    
+    .option-text {
+        font-size: 1rem;
+    }
+    
+    .score-section h2 {
+        font-size: 1.6rem;
+    }
+    
+    .score-message {
+        font-size: 1.2rem;
+    }
+}

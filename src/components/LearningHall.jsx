@@ -9,6 +9,7 @@ const categories = [
     { id: 'vocabulary', icon: '語', label: 'Vocabulary', description: 'Build your Japanese word bank' },
     { id: 'verbs', icon: '動', label: 'Verbs', description: 'Conjugate and use Japanese verbs' },
     { id: 'culture', icon: '化', label: 'Culture', description: 'Explore Japanese traditions and customs' },
+    { id: 'quiz', icon: '試', label: 'Quiz', description: 'Test your N5 knowledge' },
 ];
 
 const containerVariants = {

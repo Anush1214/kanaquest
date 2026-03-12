@@ -5,6 +5,7 @@ import CastleHome from './components/CastleHome';
 import LoginPage from './components/LoginPage';
 import LearningHall from './components/LearningHall';
 import ResourcePage from './components/ResourcePage';
+import QuizPage from './components/QuizPage';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import './App.css';
@@ -14,6 +15,7 @@ const VIEWS = {
   LOGIN: 'login',
   HALL: 'hall',
   RESOURCE: 'resource',
+  QUIZ: 'quiz',
 };
 
 function App() {
@@ -60,7 +62,11 @@ function App() {
     setIsTransitioning(true);
     setSelectedCategory(categoryId);
     setTimeout(() => {
-      setCurrentView(VIEWS.RESOURCE);
+      if (categoryId === 'quiz') {
+        setCurrentView(VIEWS.QUIZ);
+      } else {
+        setCurrentView(VIEWS.RESOURCE);
+      }
       setIsTransitioning(false);
     }, 600);
   }, [isTransitioning]);
@@ -114,6 +120,14 @@ function App() {
           <ResourcePage
             key={`resource-${selectedCategory}`}
             categoryId={selectedCategory}
+            onBack={handleBackToHall}
+          />
+        )}
+
+        {currentView === VIEWS.QUIZ && !isTransitioning && (
+          <QuizPage
+            key="quiz"
+            userName={userName}
             onBack={handleBackToHall}
           />
         )}

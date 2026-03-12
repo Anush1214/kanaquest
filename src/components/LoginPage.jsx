@@ -93,11 +93,14 @@ const LoginPage = ({ onLogin }) => {
             const userCredential = await signInWithPopup(auth, provider);
             const user = userCredential.user;
 
-            const name = user.displayName || user.email.split('@')[0];
-
             // Check if user exists to determine if new
             const userDoc = await getDoc(doc(db, 'users', user.uid));
             const isNewUser = !userDoc.exists();
+
+            // Give highest priority to the name they already set in the database
+            // If new user, try Google's displayName, otherwise fallback to the email prefix
+            const existingName = userDoc.exists() ? userDoc.data().displayName : null;
+            const name = existingName || user.displayName || user.email.split('@')[0];
 
             // Save or update user in Firestore
             await setDoc(doc(db, 'users', user.uid), {

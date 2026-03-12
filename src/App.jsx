@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { AnimatePresence } from 'framer-motion';
 import SakuraPetals from './components/SakuraPetals';
 import CastleHome from './components/CastleHome';
@@ -29,10 +30,20 @@ function App() {
   const [isAuthChecking, setIsAuthChecking] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // User is signed in, skip the login and home page if they refresh
-        setUserName(user.displayName || user.email.split('@')[0]);
+        // Fetch the custom name from Firestore database
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists() && userDoc.data().displayName) {
+            setUserName(userDoc.data().displayName);
+          } else {
+            setUserName(user.displayName || user.email.split('@')[0]);
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUserName(user.displayName || user.email.split('@')[0]);
+        }
         setCurrentView(VIEWS.HALL);
       } else {
         // User is signed out on refresh

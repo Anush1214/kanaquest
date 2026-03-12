@@ -1,4 +1,6 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { auth } from './firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import { AnimatePresence } from 'framer-motion';
 import SakuraPetals from './components/SakuraPetals';
 import CastleHome from './components/CastleHome';
@@ -24,6 +26,23 @@ function App() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [userName, setUserName] = useState('');
   const [isNewUser, setIsNewUser] = useState(false);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, skip the login and home page if they refresh
+        setUserName(user.displayName || user.email.split('@')[0]);
+        setCurrentView(VIEWS.HALL);
+      } else {
+        // User is signed out on refresh
+        setCurrentView(VIEWS.HOME);
+      }
+      setIsAuthChecking(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleEnterCastle = useCallback(() => {
     if (isTransitioning) return;
@@ -89,6 +108,10 @@ function App() {
       setIsTransitioning(false);
     }, 600);
   }, [isTransitioning]);
+
+  if (isAuthChecking) {
+    return <div className="app loading-state"></div>; // Prevents flashing the home page while Firebase checks
+  }
 
   return (
     <div className="app">

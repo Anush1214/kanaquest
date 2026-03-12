@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage';
 import LearningHall from './components/LearningHall';
 import ResourcePage from './components/ResourcePage';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import './App.css';
 
 const VIEWS = {
@@ -86,6 +87,7 @@ function App() {
   return (
     <div className="app">
       <Analytics />
+      <SpeedInsights />
       <SakuraPetals count={60} />
 
       <AnimatePresence mode="wait">
